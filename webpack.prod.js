@@ -1,4 +1,5 @@
 const path = require("path");
+const { ShaderChunk } = require("three");
 
 module.exports = {
   mode: "production",
@@ -24,5 +25,6 @@ module.exports = {
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, ""),
+    // Element: ShaderChunk(path.dirname)
   },
 };

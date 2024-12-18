@@ -1,30 +1,34 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  mode: "development",
-  entry: ["./src/index.js"],
-  devtool: "inline-source-map",
-  devServer: {
-    contentBase: "./dist",
-    open: false,
-    hot: true,
-    writeToDisk: true,
+  mode: 'development',
+  entry: './src/index.js',
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
   },
-  plugins: [],
+  devServer: {
+    contentBase: './dist',
+    hot: true,
+    port: 8080  
+  },
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|jpg)$/i,
-        loader: "file-loader",
-        options: {
-          name: "[path][name].[ext]",
-          outputPath: "./assets",
-        },
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       },
-    ],
-  },
-  output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
-  },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+        type: 'javascript/auto'
+      }
+    ]
+  }
 };
