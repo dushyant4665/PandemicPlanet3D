@@ -15,7 +15,7 @@
     "3d",
     "threejs"
   ],
-  "author": "Zhanarbek Osmonaliev",
+  "author": "Dushyant Khandelwal",
   "license": "ISC",
   "dependencies": {
     "three": "^0.128.0",
