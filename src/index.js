@@ -29,21 +29,20 @@ initGlobe();
 onWindowResize();
 animate();
 
-// SECTION Initializing core ThreeJS elements
+
 function init() {
-  // Initialize renderer
-  renderer = new WebGLRenderer({ antialias: true });
+
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   // renderer.outputEncoding = THREE.sRGBEncoding;
   document.body.appendChild(renderer.domElement);
 
-  // Initialize scene, light
+
   scene = new Scene();
   scene.add(new AmbientLight(0xbbbbbb, 0.3));
   scene.background = new Color(0x040d21);
 
-  // Initialize camera, light
+
   camera = new PerspectiveCamera();
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -66,7 +65,7 @@ function init() {
 
   scene.add(camera);
 
-  // Additional effects
+
   scene.fog = new Fog(0x535ef3, 400, 2000);
 
   // Helpers
@@ -95,9 +94,9 @@ function init() {
   document.addEventListener("mousemove", onMouseMove);
 }
 
-// SECTION Globe
+
 function initGlobe() {
-  // Initialize the Globe
+
   Globe = new ThreeGlobe({
     waitForGlobeReady: true,
     animateIn: true,
@@ -118,7 +117,7 @@ function initGlobe() {
       } else return "rgba(255,255,255, 0.7)";
     });
 
-  // NOTE Arc animations are followed after the globe enters the scene
+
   setTimeout(() => {
     Globe.arcsData(travelHistory.flights)
       .arcColor((e) => {
@@ -160,7 +159,7 @@ function initGlobe() {
   globeMaterial.emissiveIntensity = 0.1;
   globeMaterial.shininess = 0.7;
 
-  // NOTE Cool stuff
+  //NOTE Cool stuff acha laga bhai
   // globeMaterial.wireframe = true;
 
   scene.add(Globe);
