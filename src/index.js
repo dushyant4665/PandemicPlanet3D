@@ -36,8 +36,6 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   // renderer.outputEncoding = THREE.sRGBEncoding;
   document.body.appendChild(renderer.domElement);
-
-
   scene = new Scene();
   scene.add(new AmbientLight(0xbbbbbb, 0.3));
   scene.background = new Color(0x040d21);
