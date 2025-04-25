@@ -8,7 +8,7 @@ Built for clarity, performance, and immersive experience.
 
 ## 🖼 Preview
 
-![3D Earth Screenshot](./preview.png)
+![3D Earth Screenshot](./assets/preview.png)
 
 ---
 
