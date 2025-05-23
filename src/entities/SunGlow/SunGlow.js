@@ -42,31 +42,23 @@ export class SunGlow {
                 side: THREE.BackSide
             });
 
-            this.glowMesh = new THREE.Mesh(glowGeometry, this.light.position);
-            this.glowMesh.material = glowMaterial;
+            this.glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+            this.glowMesh.position.copy(this.light.position);
             this.group.add(this.glowMesh);
 
-            // Add lens flare
-            const textureLoader = new THREE.TextureLoader();
-            const flareTexture = await new Promise((resolve, reject) => {
-                textureLoader.load(
-                    '/assets/sun/flare.png',
-                    resolve,
-                    undefined,
-                    reject
-                );
-            });
-
-            const flareMaterial = new THREE.SpriteMaterial({
-                map: flareTexture,
+            // Create a simple flare sprite without texture
+            const flareGeometry = new THREE.PlaneGeometry(20, 20);
+            const flareMaterial = new THREE.MeshBasicMaterial({
                 color: this.options.color,
                 transparent: true,
-                blending: THREE.AdditiveBlending
+                opacity: 0.5,
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide
             });
 
-            const flare = new THREE.Sprite(flareMaterial);
-            flare.scale.set(20, 20, 1);
+            const flare = new THREE.Mesh(flareGeometry, flareMaterial);
             flare.position.copy(this.light.position);
+            flare.lookAt(0, 0, 0); // Make flare face the camera
             this.group.add(flare);
 
             console.log('SunGlow initialized successfully');
@@ -99,4 +91,4 @@ export class SunGlow {
             this.group = null;
         }
     }
-} 
+}
