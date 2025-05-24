@@ -1,22 +1,10 @@
 import { defineConfig } from 'vite';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export default defineConfig({
     server: {
-        port: 3001,
+        port: 3000,
         open: true,
-        cors: true,
-        hmr: {
-            protocol: 'ws',
-            host: 'localhost'
-        },
-        watch: {
-            usePolling: true
-        }
+        host: true // Expose to network
     },
     build: {
         outDir: 'dist',
@@ -25,19 +13,15 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    'three': ['three']
+                    'three': ['three'],
+                    'vendor': ['three/examples/jsm/controls/OrbitControls.js']
                 }
             }
         }
     },
     publicDir: 'public',
+    assetsInclude: ['**/*.jpg', '**/*.png', '**/*.tif', '**/*.svg'],
     optimizeDeps: {
-        include: ['three'],
-        exclude: []
-    },
-    resolve: {
-        alias: {
-            'three': resolve(__dirname, 'node_modules/three')
-        }
+        include: ['three']
     }
 }); 

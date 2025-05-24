@@ -1,100 +1,152 @@
-# 🌍 Interactive 3D Earth Visualization
+# 🌍 Interactive Earth Visualization
 
-A high-performance, interactive 3D Earth visualization built with Three.js. Features smooth Earth rotation, realistic cloud layers, and optimized rendering for the best visual experience.
+A stunning, high-performance 3D Earth visualization built with Three.js and Vite. Experience our planet in space with realistic textures, smooth animations, and interactive controls.
 
-## 🚀 Features
+![Earth Visualization](https://raw.githubusercontent.com/dushyant4665/earth-visualization/main/preview.png)
 
-- Smooth Earth rotation with realistic axial tilt (23.44°)
-- Dynamic cloud layer with optimized transparency
-- High-quality Earth textures
-- Optimized performance with WebGL
-- Smooth camera controls
-- Responsive design
-- No lag, butter-smooth animation
+## ✨ Features
 
-## 🛠️ Tech Stack
+- **Realistic Earth Rendering**
+  - High-resolution 8K textures for day and night views
+  - Detailed bump mapping for terrain visualization
+  - Dynamic cloud layer with smooth animation
+  - Atmospheric effects and realistic lighting
 
-- Three.js for 3D rendering
-- WebGL for hardware acceleration
+- **Interactive Controls**
+  - Smooth orbit controls for Earth rotation
+  - Intuitive zoom and pan functionality
+  - Responsive touch controls for mobile devices
+  - Auto-rotation with adjustable speed
+
+- **Performance Optimized**
+  - Efficient texture loading with progress tracking
+  - Optimized 3D rendering with WebGL
+  - Smooth animations using delta time
+  - Responsive design for all devices
+
+- **Production Ready**
+  - Clean, modern UI with loading screen
+  - Error handling with recovery options
+  - Mobile-responsive design
+  - SEO optimized
+
+## 🚀 Live Demo
+
+Experience the visualization live: [Earth in Space](https://dushyant4665.github.io/earth-visualization)
+
+## 🛠️ Technologies
+
+- [Three.js](https://threejs.org/) - 3D graphics library
+- [Vite](https://vitejs.dev/) - Next-generation frontend tooling
+- [WebGL](https://www.khronos.org/webgl/) - 3D graphics for the web
 - Modern JavaScript (ES6+)
-- Optimized for performance
 
-## 🎯 Live Demo
-
-[View Live Demo](https://dushyant4665.github.io/earth-visualization)
-
-## 🏗️ Installation
+## 📦 Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/dushyant4665/earth-visualization.git
-```
+   ```bash
+   git clone https://github.com/dushyant4665/earth-visualization.git
+   cd earth-visualization
+   ```
 
 2. Install dependencies:
-```bash
-cd earth-visualization
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 3. Start the development server:
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 4. Build for production:
-```bash
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
-## 📁 Project Structure
+5. Preview production build:
+   ```bash
+   npm run preview
+   ```
 
-```
-earth-visualization/
-├── src/
-│   ├── core/           # Core rendering and scene management
-│   ├── entities/       # 3D entities (Earth, clouds, etc.)
-│   ├── utils/          # Utility functions
-│   └── main.js         # Application entry point
-├── assets/
-│   └── earth/          # Earth textures and resources
-├── public/             # Static assets
-└── index.html          # Main HTML file
-```
+## 🎮 Usage
+
+- **Mouse Controls**
+  - Left Click + Drag: Rotate Earth
+  - Right Click + Drag: Pan view
+  - Scroll: Zoom in/out
+  - Double Click: Reset view
+
+- **Touch Controls**
+  - One finger drag: Rotate Earth
+  - Two finger drag: Pan view
+  - Pinch: Zoom in/out
+  - Double tap: Reset view
 
 ## 🎨 Customization
 
-You can customize the Earth visualization by modifying these parameters in `src/entities/Earth/Earth.js`:
+The visualization can be customized by modifying the following parameters in `src/main.js`:
 
-- `rotationSpeed`: Earth's rotation speed
-- `radius`: Earth's size
-- `axialTilt`: Earth's tilt angle
-- Cloud layer opacity and speed
+```javascript
+// Animation speeds
+const EARTH_ROTATION_SPEED = 0.001;
+const CLOUD_ROTATION_SPEED = 0.0006;
+const STAR_ROTATION_SPEED = 0.00003;
 
-## ⚡ Performance Optimizations
+// Camera settings
+const CAMERA_DAMPING = 0.05;
+const CONTROLS_ROTATION_SPEED = 0.4;
+const CONTROLS_ZOOM_SPEED = 0.8;
 
-- Optimized WebGL renderer settings
-- Efficient texture loading
-- Smooth animation with requestAnimationFrame
-- Hardware-accelerated transforms
-- Optimized geometry and materials
-- Efficient event handling
+// Visual quality
+const EARTH_SEGMENTS = 128;
+const STAR_COUNT = 15000;
+const SHADOW_MAP_SIZE = 2048;
+```
 
-## 📝 License
+## 📱 Browser Support
 
-MIT License - feel free to use this project for your own purposes!
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Android Chrome)
+
+## 🎯 Performance
+
+The visualization is optimized for performance with:
+- Efficient texture loading and management
+- Optimized 3D geometry
+- Smart camera controls
+- Responsive design
+- Hardware acceleration
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Dushyant**
+- GitHub: [@dushyant4665](https://github.com/dushyant4665)
+- Project Link: [https://github.com/dushyant4665/earth-visualization](https://github.com/dushyant4665/earth-visualization)
 
 ## 🙏 Acknowledgments
 
-- Three.js for the amazing 3D engine
-- NASA for Earth textures
-- The open-source community
+- Earth textures from [Solar System Scope](https://www.solarsystemscope.com/)
+- Three.js community for their excellent documentation
+- All contributors who have helped improve this project
 
-## 📧 Contact
+---
 
-Dushyant - [@dushyant4665](https://github.com/dushyant4665)
-
-Project Link: [https://github.com/dushyant4665/earth-visualization](https://github.com/dushyant4665/earth-visualization) 
+⭐️ If you like this project, please give it a star on GitHub! 
