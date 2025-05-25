@@ -9,10 +9,9 @@ A stunning, high-performance 3D Earth visualization built with Three.js and Vite
     Earth Visualization
   </video>
 </div>-->
-<video src="assets/preview.mp4" width="800" controls autoplay loop muted>
-  Your browser does not support the video tag.
+<video src="https://raw.githubusercontent.com/dushyant4665/earth-visualization/main/assets/preview.mp4" width="800" controls>
+  Earth Visualization
 </video>
-
 ## ✨ Features
 
 - **Realistic Earth Rendering**
