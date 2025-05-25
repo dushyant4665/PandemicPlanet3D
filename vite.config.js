@@ -22,18 +22,22 @@ export default defineConfig({
                     'three': ['three']
                 },
                 assetFileNames: (assetInfo) => {
-                    if (/\.(png|jpe?g|gif|tiff?|webp|svg)$/.test(assetInfo.name)) {
-                        return 'assets/[name][extname]';
+                    const info = assetInfo.name.split('.');
+                    const ext = info[info.length - 1];
+                    if (/\.(png|jpe?g|gif|tiff?|webp|svg|exr)$/.test(assetInfo.name)) {
+                        return `assets/[name][extname]`;
                     }
-                    return 'assets/[name]-[hash][extname]';
+                    return `assets/[name]-[hash][extname]`;
                 }
             }
-        }
+        },
+        chunkSizeWarningLimit: 1600
     },
     publicDir: 'public',
-    base: '',
+    base: '/',
     assetsInclude: ['**/*.jpg', '**/*.png', '**/*.tif', '**/*.svg', '**/*.exr'],
     optimizeDeps: {
-        include: ['three']
+        include: ['three'],
+        exclude: ['three/examples/jsm/controls/OrbitControls']
     }
 }); 
