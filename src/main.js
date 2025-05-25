@@ -140,30 +140,38 @@ scene.add(earth);
 
 // Helper function to get correct asset path
 const getAssetPath = (path) => {
-    if (import.meta.env.DEV) {
-        return path;
-    }
-    return `./${path}`;
+    // Always use absolute path from root
+    return path.startsWith('/') ? path : `/${path}`;
 };
 
-// Texture loading function
-const loadTexture = (path) => {
+// Texture loading function with retry
+const loadTexture = (path, retries = 3) => {
     return new Promise((resolve, reject) => {
         const textureLoader = new THREE.TextureLoader();
         const fullPath = getAssetPath(path);
         console.log('Loading texture:', fullPath);
-        textureLoader.load(
-            fullPath,
-            (texture) => {
-                texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                resolve(texture);
-            },
-            undefined,
-            (error) => {
-                console.error(`Error loading texture ${fullPath}:`, error);
-                reject(error);
-            }
-        );
+
+        const attemptLoad = (attempt = 1) => {
+            textureLoader.load(
+                fullPath,
+                (texture) => {
+                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    resolve(texture);
+                },
+                undefined,
+                (error) => {
+                    console.error(`Error loading texture ${fullPath} (attempt ${attempt}/${retries}):`, error);
+                    if (attempt < retries) {
+                        console.log(`Retrying texture load: ${fullPath}`);
+                        setTimeout(() => attemptLoad(attempt + 1), 1000 * attempt);
+                    } else {
+                        reject(error);
+                    }
+                }
+            );
+        };
+
+        attemptLoad();
     });
 };
 
@@ -172,12 +180,23 @@ async function loadEarthTextures() {
     try {
         updateProgress(0.2, 'Loading Earth textures...');
         
+        const texturePaths = {
+            day: '/assets/earth/8k_earth_daymap1.jpg',
+            night: '/assets/earth/8k_earth_nightmap1.jpg',
+            bump: '/assets/earth/earth-bump.jpg',
+            specular: '/assets/earth/earth-specular.jpg',
+            clouds: '/assets/earth/earth-clouds.png'
+        };
+
+        // Log available textures for debugging
+        console.log('Attempting to load textures:', texturePaths);
+
         const [earthDayTexture, earthNightTexture, earthBumpTexture, earthSpecularTexture, cloudTexture] = await Promise.all([
-            loadTexture('assets/earth/8k_earth_daymap1.jpg'),
-            loadTexture('assets/earth/8k_earth_nightmap1.jpg'),
-            loadTexture('assets/earth/earth-bump.jpg'),
-            loadTexture('assets/earth/earth-specular.jpg'),
-            loadTexture('assets/earth/earth-clouds.png')
+            loadTexture(texturePaths.day),
+            loadTexture(texturePaths.night),
+            loadTexture(texturePaths.bump),
+            loadTexture(texturePaths.specular),
+            loadTexture(texturePaths.clouds)
         ]);
 
         // Apply textures to Earth material
@@ -214,7 +233,7 @@ async function loadEarthTextures() {
         
     } catch (error) {
         console.error('Failed to load Earth textures:', error);
-        showError('Failed to load Earth textures. Please refresh the page.');
+        showError('Failed to load Earth textures. Please check your internet connection and refresh the page.');
     }
 }
 

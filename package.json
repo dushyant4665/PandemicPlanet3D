@@ -4,9 +4,13 @@
   "description": "Interactive 3D Earth visualization with realistic effects",
   "type": "module",
   "scripts": {
+    "setup": "node setup.js",
+    "predev": "npm run setup",
     "dev": "vite",
+    "prebuild": "npm run setup",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && vercel --prod"
   },
   "dependencies": {
     "three": "^0.160.0"
