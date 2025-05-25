@@ -13,7 +13,7 @@ A stunning, high-performance 3D Earth visualization built with Three.js and Vite
 <div align="center">
   <video controls width="90%" autoplay loop muted>
     <source src="assets/preview.mp4" type="video/mp4">
-    <source src="https://raw.githubusercontent.com/dushyant4665/earth-visualization/main/assets/preview.mp4" type="video/mp4">
+    <source src="https://raw.githubusercontent.com/dushyant4665/earth-visualization/main/assets/preview.gif" type="video/mp4">
     Your browser doesn't support HTML5 video.
   </video>
 </div>
