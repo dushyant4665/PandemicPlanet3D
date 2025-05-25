@@ -12,6 +12,7 @@
     "prebuild": "npm run clean",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write ."
+
   },
   "dependencies": {
     "three": "^0.160.0"
