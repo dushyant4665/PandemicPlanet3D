@@ -184,8 +184,8 @@ async function loadEarthTextures() {
         updateProgress(0.2, 'Loading Earth textures...');
         
         const texturePaths = {
-            day: 'earth/earth-day.jpg',
-            night: 'earth/earth-night.jpg',
+            day: 'earth/8k_earth_daymap1.jpg',
+            night: 'earth/8k_earth_nightmap1.jpg',
             bump: 'earth/earth-bump.jpg',
             specular: 'earth/earth-specular.jpg',
             normal: 'earth/earth-normal.jpg',
