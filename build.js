@@ -16,6 +16,17 @@ const REQUIRED_TEXTURES = [
     'earth-clouds-alpha.png'
 ];
 
+const texturePaths = {
+    day: 'assets/earth/earth-day.jpg',
+    night: 'assets/earth/earth-night.jpg',
+    bump: 'assets/earth/earth-bump.jpg',
+    specular: 'assets/earth/earth-specular.jpg',
+    normal: 'assets/earth/earth-normal.jpg',
+    roughness: 'assets/earth/earth-roughness.jpg',
+    clouds: 'assets/earth/earth-clouds.png',
+    cloudsAlpha: 'assets/earth/earth-clouds-alpha.png',
+};
+
 async function copyAssets() {
     try {
         console.log('Starting asset copy process...');

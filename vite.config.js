@@ -23,7 +23,6 @@ export default defineConfig({
     assetsDir: 'assets',
     emptyOutDir: true,
     sourcemap: true,
-    copyPublicDir: true,
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -41,8 +40,7 @@ export default defineConfig({
           vendor: ['three/examples/jsm/controls/OrbitControls'],
         },
         assetFileNames: assetInfo => {
-          const info = assetInfo.name.split('.');
-          const ext = info[info.length - 1];
+          if (!assetInfo.name) return 'assets/[name]-[hash][extname]'; // fallback if name missing
           if (/\.(png|jpe?g|gif|tiff?|webp|svg|exr)$/.test(assetInfo.name)) {
             return `assets/[name][extname]`;
           }
@@ -60,10 +58,9 @@ export default defineConfig({
   assetsInclude: ['**/*.jpg', '**/*.png', '**/*.tif', '**/*.svg', '**/*.exr'],
   optimizeDeps: {
     include: ['three'],
-    exclude: ['three/examples/jsm/controls/OrbitControls'],
+    // exclude removed for stability
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   },
-   base: '/',
 });

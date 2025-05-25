@@ -187,8 +187,8 @@ async function loadEarthTextures() {
     updateProgress(0.2, 'Loading Earth textures...');
 
     const texturePaths = {
-      day: 'earth/8k_earth_daymap1.jpg',
-      night: 'earth/8k_earth_nightmap1.jpg',
+      day: 'earth/earth-day.jpg',
+      night: 'earth/earth-night.jpg',
       bump: 'earth/earth-bump.jpg',
       specular: 'earth/earth-specular.jpg',
       normal: 'earth/earth-normal.jpg',
@@ -261,7 +261,7 @@ async function loadEarthTextures() {
 
     updateProgress(1, 'Visualization ready!');
     window.dispatchEvent(new Event('visualization-ready'));
-  } catch (error) {
+    } catch (error) {
     console.error('Failed to load Earth textures:', error);
     showError(
       'Failed to load Earth textures. Please check your internet connection and refresh the page.'

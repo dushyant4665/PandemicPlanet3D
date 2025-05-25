@@ -65,17 +65,8 @@ lerna-debug.log*
 
 # Large media files
 *.exr
-*.jpg
-*.jpeg
-*.png
-*.hdr
-*.hdri
-*.tga
-*.tif
-*.tiff
-*.bmp
-*.gif
-*.webp
+
+
 
 # Keep only specific texture files
 !public/assets/earth/earth-day.jpg
