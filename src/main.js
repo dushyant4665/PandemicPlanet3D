@@ -140,8 +140,10 @@ scene.add(earth);
 
 // Helper function to get correct asset path
 const getAssetPath = (path) => {
-    // Always use absolute path from root
-    return path.startsWith('/') ? path : `/${path}`;
+    // Remove leading slash if present
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    // Use relative path in both development and production
+    return `./assets/${cleanPath}`;
 };
 
 // Texture loading function with retry
@@ -155,6 +157,7 @@ const loadTexture = (path, retries = 3) => {
             textureLoader.load(
                 fullPath,
                 (texture) => {
+                    console.log('Successfully loaded texture:', fullPath);
                     texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
                     resolve(texture);
                 },
@@ -181,22 +184,37 @@ async function loadEarthTextures() {
         updateProgress(0.2, 'Loading Earth textures...');
         
         const texturePaths = {
-            day: '/assets/earth/8k_earth_daymap1.jpg',
-            night: '/assets/earth/8k_earth_nightmap1.jpg',
-            bump: '/assets/earth/earth-bump.jpg',
-            specular: '/assets/earth/earth-specular.jpg',
-            clouds: '/assets/earth/earth-clouds.png'
+            day: 'earth/earth-day.jpg',
+            night: 'earth/earth-night.jpg',
+            bump: 'earth/earth-bump.jpg',
+            specular: 'earth/earth-specular.jpg',
+            normal: 'earth/earth-normal.jpg',
+            roughness: 'earth/earth-roughness.jpg',
+            clouds: 'earth/earth-clouds.png',
+            cloudsAlpha: 'earth/earth-clouds-alpha.png'
         };
 
         // Log available textures for debugging
         console.log('Attempting to load textures:', texturePaths);
 
-        const [earthDayTexture, earthNightTexture, earthBumpTexture, earthSpecularTexture, cloudTexture] = await Promise.all([
+        const [
+            earthDayTexture,
+            earthNightTexture,
+            earthBumpTexture,
+            earthSpecularTexture,
+            earthNormalTexture,
+            earthRoughnessTexture,
+            cloudTexture,
+            cloudAlphaTexture
+        ] = await Promise.all([
             loadTexture(texturePaths.day),
             loadTexture(texturePaths.night),
             loadTexture(texturePaths.bump),
             loadTexture(texturePaths.specular),
-            loadTexture(texturePaths.clouds)
+            loadTexture(texturePaths.normal),
+            loadTexture(texturePaths.roughness),
+            loadTexture(texturePaths.clouds),
+            loadTexture(texturePaths.cloudsAlpha)
         ]);
 
         // Apply textures to Earth material
@@ -208,13 +226,19 @@ async function loadEarthTextures() {
         earthMaterial.bumpScale = 0.07;
         earthMaterial.specularMap = earthSpecularTexture;
         earthMaterial.specular = new THREE.Color(0x666666);
+        earthMaterial.normalMap = earthNormalTexture;
+        earthMaterial.normalScale = new THREE.Vector2(0.5, 0.5);
+        earthMaterial.roughnessMap = earthRoughnessTexture;
+        earthMaterial.roughness = 0.7;
+        earthMaterial.metalness = 0.1;
         earthMaterial.shininess = 20;
         earthMaterial.needsUpdate = true;
 
-        // Create cloud layer
+        // Create cloud layer with alpha
         const cloudGeometry = new THREE.SphereGeometry(1.01, CLOUD_LAYER_SEGMENTS, CLOUD_LAYER_SEGMENTS);
         const cloudMaterial = new THREE.MeshPhongMaterial({
             map: cloudTexture,
+            alphaMap: cloudAlphaTexture,
             transparent: true,
             opacity: 0.3,
             blending: THREE.AdditiveBlending,
