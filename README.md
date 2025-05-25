@@ -7,18 +7,21 @@ A stunning, high-performance 3D Earth visualization built with Three.js and Vite
 ## ✨ Features
 
 - **Realistic Earth Rendering**
+
   - High-resolution 8K textures for day and night views
   - Detailed bump mapping for terrain visualization
   - Dynamic cloud layer with smooth animation
   - Atmospheric effects and realistic lighting
 
 - **Interactive Controls**
+
   - Smooth orbit controls for Earth rotation
   - Intuitive zoom and pan functionality
   - Responsive touch controls for mobile devices
   - Auto-rotation with adjustable speed
 
 - **Performance Optimized**
+
   - Efficient texture loading with progress tracking
   - Optimized 3D rendering with WebGL
   - Smooth animations using delta time
@@ -44,22 +47,26 @@ Experience the visualization live: [Earth in Space](https://dushyant4665.github.
 ## 📦 Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/dushyant4665/earth-visualization.git
    cd earth-visualization
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
 
 4. Build for production:
+
    ```bash
    npm run build
    ```
@@ -72,6 +79,7 @@ Experience the visualization live: [Earth in Space](https://dushyant4665.github.
 ## 🎮 Usage
 
 - **Mouse Controls**
+
   - Left Click + Drag: Rotate Earth
   - Right Click + Drag: Pan view
   - Scroll: Zoom in/out
@@ -115,6 +123,7 @@ const SHADOW_MAP_SIZE = 2048;
 ## 🎯 Performance
 
 The visualization is optimized for performance with:
+
 - Efficient texture loading and management
 - Optimized 3D geometry
 - Smart camera controls
@@ -138,6 +147,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Dushyant**
+
 - GitHub: [@dushyant4665](https://github.com/dushyant4665)
 - Project Link: [https://github.com/dushyant4665/earth-visualization](https://github.com/dushyant4665/earth-visualization)
 

@@ -22,19 +22,19 @@ const TOTAL_TEXTURES = 5; // day, night, bump, specular, clouds
 
 // Progress tracking
 function updateProgress(progress, text) {
-    const event = new CustomEvent('loading-progress', {
-        detail: { progress, text }
-    });
-    window.dispatchEvent(event);
+  const event = new CustomEvent('loading-progress', {
+    detail: { progress, text },
+  });
+  window.dispatchEvent(event);
 }
 
 // Error handling
 function showError(message) {
-    const event = new CustomEvent('visualization-error', {
-        detail: { message }
-    });
-    window.dispatchEvent(event);
-    console.error(message);
+  const event = new CustomEvent('visualization-error', {
+    detail: { message },
+  });
+  window.dispatchEvent(event);
+  console.error(message);
 }
 
 // Create scene with optimized settings
@@ -47,11 +47,11 @@ const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerH
 camera.position.z = 5;
 
 // Production-ready renderer with optimized settings
-const renderer = new THREE.WebGLRenderer({ 
-    antialias: true,
-    powerPreference: 'high-performance',
-    alpha: true,
-    precision: 'highp'
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  powerPreference: 'high-performance',
+  alpha: true,
+  precision: 'highp',
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
@@ -80,28 +80,28 @@ controls.smoothTime = 0.3;
 // Create starfield
 const starGeometry = new THREE.BufferGeometry();
 const starMaterial = new THREE.PointsMaterial({
-    color: 0xFFFFFF,
-    size: 0.12,
-    transparent: true,
-    opacity: 0.8,
-    sizeAttenuation: true,
-    vertexColors: true
+  color: 0xffffff,
+  size: 0.12,
+  transparent: true,
+  opacity: 0.8,
+  sizeAttenuation: true,
+  vertexColors: true,
 });
 
 const starVertices = new Float32Array(STAR_COUNT * 3);
 const starColors = new Float32Array(STAR_COUNT * 3);
 
 for (let i = 0; i < STAR_COUNT; i++) {
-    const i3 = i * 3;
-    starVertices[i3] = THREE.MathUtils.randFloatSpread(2000);
-    starVertices[i3 + 1] = THREE.MathUtils.randFloatSpread(2000);
-    starVertices[i3 + 2] = THREE.MathUtils.randFloatSpread(2000);
-    
-    const color = new THREE.Color();
-    color.setHSL(Math.random() * 0.1 + 0.5, 0.8, Math.random() * 0.2 + 0.8);
-    starColors[i3] = color.r;
-    starColors[i3 + 1] = color.g;
-    starColors[i3 + 2] = color.b;
+  const i3 = i * 3;
+  starVertices[i3] = THREE.MathUtils.randFloatSpread(2000);
+  starVertices[i3 + 1] = THREE.MathUtils.randFloatSpread(2000);
+  starVertices[i3 + 2] = THREE.MathUtils.randFloatSpread(2000);
+
+  const color = new THREE.Color();
+  color.setHSL(Math.random() * 0.1 + 0.5, 0.8, Math.random() * 0.2 + 0.8);
+  starColors[i3] = color.r;
+  starColors[i3 + 1] = color.g;
+  starColors[i3 + 2] = color.b;
 }
 
 starGeometry.setAttribute('position', new THREE.BufferAttribute(starVertices, 3));
@@ -130,184 +130,192 @@ scene.add(rimLight);
 // Create Earth
 const earthGeometry = new THREE.SphereGeometry(1, EARTH_SEGMENTS, EARTH_SEGMENTS);
 const earthMaterial = new THREE.MeshPhongMaterial({
-    shininess: 12,
-    specular: 0x333333,
-    bumpScale: 0.05,
-    reflectivity: 0.8
+  shininess: 12,
+  specular: 0x333333,
+  bumpScale: 0.05,
+  reflectivity: 0.8,
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
 
 // Helper function to get correct asset path
-const getAssetPath = (path) => {
-    // Remove leading slash if present
-    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-    // Use relative path in both development and production
-    return `./assets/${cleanPath}`;
+const getAssetPath = path => {
+  // Remove leading slash if present
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  // Use relative path in both development and production
+  return `./assets/${cleanPath}`;
 };
 
 // Texture loading function with retry
 const loadTexture = (path, retries = 3) => {
-    return new Promise((resolve, reject) => {
-        const textureLoader = new THREE.TextureLoader();
-        const fullPath = getAssetPath(path);
-        console.log('Loading texture:', fullPath);
+  return new Promise((resolve, reject) => {
+    const textureLoader = new THREE.TextureLoader();
+    const fullPath = getAssetPath(path);
+    console.log('Loading texture:', fullPath);
 
-        const attemptLoad = (attempt = 1) => {
-            textureLoader.load(
-                fullPath,
-                (texture) => {
-                    console.log('Successfully loaded texture:', fullPath);
-                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                    resolve(texture);
-                },
-                undefined,
-                (error) => {
-                    console.error(`Error loading texture ${fullPath} (attempt ${attempt}/${retries}):`, error);
-                    if (attempt < retries) {
-                        console.log(`Retrying texture load: ${fullPath}`);
-                        setTimeout(() => attemptLoad(attempt + 1), 1000 * attempt);
-                    } else {
-                        reject(error);
-                    }
-                }
-            );
-        };
+    const attemptLoad = (attempt = 1) => {
+      textureLoader.load(
+        fullPath,
+        texture => {
+          console.log('Successfully loaded texture:', fullPath);
+          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          resolve(texture);
+        },
+        undefined,
+        error => {
+          console.error(
+            `Error loading texture ${fullPath} (attempt ${attempt}/${retries}):`,
+            error
+          );
+          if (attempt < retries) {
+            console.log(`Retrying texture load: ${fullPath}`);
+            setTimeout(() => attemptLoad(attempt + 1), 1000 * attempt);
+          } else {
+            reject(error);
+          }
+        }
+      );
+    };
 
-        attemptLoad();
-    });
+    attemptLoad();
+  });
 };
 
 // Load all Earth textures
 async function loadEarthTextures() {
-    try {
-        updateProgress(0.2, 'Loading Earth textures...');
-        
-        const texturePaths = {
-            day: 'earth/8k_earth_daymap1.jpg',
-            night: 'earth/8k_earth_nightmap1.jpg',
-            bump: 'earth/earth-bump.jpg',
-            specular: 'earth/earth-specular.jpg',
-            normal: 'earth/earth-normal.jpg',
-            roughness: 'earth/earth-roughness.jpg',
-            clouds: 'earth/earth-clouds.png',
-            cloudsAlpha: 'earth/earth-clouds-alpha.png'
-        };
+  try {
+    updateProgress(0.2, 'Loading Earth textures...');
 
-        // Log available textures for debugging
-        console.log('Attempting to load textures:', texturePaths);
+    const texturePaths = {
+      day: 'earth/8k_earth_daymap1.jpg',
+      night: 'earth/8k_earth_nightmap1.jpg',
+      bump: 'earth/earth-bump.jpg',
+      specular: 'earth/earth-specular.jpg',
+      normal: 'earth/earth-normal.jpg',
+      roughness: 'earth/earth-roughness.jpg',
+      clouds: 'earth/earth-clouds.png',
+      cloudsAlpha: 'earth/earth-clouds-alpha.png',
+    };
 
-        const [
-            earthDayTexture,
-            earthNightTexture,
-            earthBumpTexture,
-            earthSpecularTexture,
-            earthNormalTexture,
-            earthRoughnessTexture,
-            cloudTexture,
-            cloudAlphaTexture
-        ] = await Promise.all([
-            loadTexture(texturePaths.day),
-            loadTexture(texturePaths.night),
-            loadTexture(texturePaths.bump),
-            loadTexture(texturePaths.specular),
-            loadTexture(texturePaths.normal),
-            loadTexture(texturePaths.roughness),
-            loadTexture(texturePaths.clouds),
-            loadTexture(texturePaths.cloudsAlpha)
-        ]);
+    // Log available textures for debugging
+    console.log('Attempting to load textures:', texturePaths);
 
-        // Apply textures to Earth material
-        earthMaterial.map = earthDayTexture;
-        earthMaterial.emissiveMap = earthNightTexture;
-        earthMaterial.emissive = new THREE.Color(0xffffff);
-        earthMaterial.emissiveIntensity = 0.25;
-        earthMaterial.bumpMap = earthBumpTexture;
-        earthMaterial.bumpScale = 0.07;
-        earthMaterial.specularMap = earthSpecularTexture;
-        earthMaterial.specular = new THREE.Color(0x666666);
-        earthMaterial.normalMap = earthNormalTexture;
-        earthMaterial.normalScale = new THREE.Vector2(0.5, 0.5);
-        earthMaterial.roughnessMap = earthRoughnessTexture;
-        earthMaterial.roughness = 0.7;
-        earthMaterial.metalness = 0.1;
-        earthMaterial.shininess = 20;
-        earthMaterial.needsUpdate = true;
+    const [
+      earthDayTexture,
+      earthNightTexture,
+      earthBumpTexture,
+      earthSpecularTexture,
+      earthNormalTexture,
+      earthRoughnessTexture,
+      cloudTexture,
+      cloudAlphaTexture,
+    ] = await Promise.all([
+      loadTexture(texturePaths.day),
+      loadTexture(texturePaths.night),
+      loadTexture(texturePaths.bump),
+      loadTexture(texturePaths.specular),
+      loadTexture(texturePaths.normal),
+      loadTexture(texturePaths.roughness),
+      loadTexture(texturePaths.clouds),
+      loadTexture(texturePaths.cloudsAlpha),
+    ]);
 
-        // Create cloud layer with alpha
-        const cloudGeometry = new THREE.SphereGeometry(1.01, CLOUD_LAYER_SEGMENTS, CLOUD_LAYER_SEGMENTS);
-        const cloudMaterial = new THREE.MeshPhongMaterial({
-            map: cloudTexture,
-            alphaMap: cloudAlphaTexture,
-            transparent: true,
-            opacity: 0.3,
-            blending: THREE.AdditiveBlending,
-            shininess: 0
-        });
-        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
-        earth.add(clouds);
+    // Apply textures to Earth material
+    earthMaterial.map = earthDayTexture;
+    earthMaterial.emissiveMap = earthNightTexture;
+    earthMaterial.emissive = new THREE.Color(0xffffff);
+    earthMaterial.emissiveIntensity = 0.25;
+    earthMaterial.bumpMap = earthBumpTexture;
+    earthMaterial.bumpScale = 0.07;
+    earthMaterial.specularMap = earthSpecularTexture;
+    earthMaterial.specular = new THREE.Color(0x666666);
+    earthMaterial.normalMap = earthNormalTexture;
+    earthMaterial.normalScale = new THREE.Vector2(0.5, 0.5);
+    earthMaterial.roughnessMap = earthRoughnessTexture;
+    earthMaterial.roughness = 0.7;
+    earthMaterial.metalness = 0.1;
+    earthMaterial.shininess = 20;
+    earthMaterial.needsUpdate = true;
 
-        // Store cloud animation function
-        earth.userData.animateClouds = (delta) => {
-            clouds.rotation.y += CLOUD_ROTATION_SPEED * delta;
-        };
+    // Create cloud layer with alpha
+    const cloudGeometry = new THREE.SphereGeometry(
+      1.01,
+      CLOUD_LAYER_SEGMENTS,
+      CLOUD_LAYER_SEGMENTS
+    );
+    const cloudMaterial = new THREE.MeshPhongMaterial({
+      map: cloudTexture,
+      alphaMap: cloudAlphaTexture,
+      transparent: true,
+      opacity: 0.3,
+      blending: THREE.AdditiveBlending,
+      shininess: 0,
+    });
+    const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+    earth.add(clouds);
 
-        updateProgress(1, 'Visualization ready!');
-        window.dispatchEvent(new Event('visualization-ready'));
-        
-    } catch (error) {
-        console.error('Failed to load Earth textures:', error);
-        showError('Failed to load Earth textures. Please check your internet connection and refresh the page.');
-    }
+    // Store cloud animation function
+    earth.userData.animateClouds = delta => {
+      clouds.rotation.y += CLOUD_ROTATION_SPEED * delta;
+    };
+
+    updateProgress(1, 'Visualization ready!');
+    window.dispatchEvent(new Event('visualization-ready'));
+  } catch (error) {
+    console.error('Failed to load Earth textures:', error);
+    showError(
+      'Failed to load Earth textures. Please check your internet connection and refresh the page.'
+    );
+  }
 }
 
 // Resize handler
 let resizeTimeout;
 window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
-    }, 100);
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
+  }, 100);
 });
 
 // Animation loop
 let lastTime = 0;
 function animate(currentTime) {
-    requestAnimationFrame(animate);
-    
-    const delta = (currentTime - lastTime) / 1000;
-    lastTime = currentTime;
-    
-    controls.update(delta);
-    earth.rotation.y += EARTH_ROTATION_SPEED * delta;
-    
-    if (earth.userData.animateClouds) {
-        earth.userData.animateClouds(delta);
-    }
-    
-    stars.rotation.y += STAR_ROTATION_SPEED * delta;
-    stars.rotation.x += STAR_ROTATION_SPEED * delta;
-    
-    renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+
+  const delta = (currentTime - lastTime) / 1000;
+  lastTime = currentTime;
+
+  controls.update(delta);
+  earth.rotation.y += EARTH_ROTATION_SPEED * delta;
+
+  if (earth.userData.animateClouds) {
+    earth.userData.animateClouds(delta);
+  }
+
+  stars.rotation.y += STAR_ROTATION_SPEED * delta;
+  stars.rotation.x += STAR_ROTATION_SPEED * delta;
+
+  renderer.render(scene, camera);
 }
 
 // Initialize visualization
 async function initializeVisualization() {
-    try {
-        updateProgress(0, 'Initializing visualization...');
-        await loadEarthTextures();
-        animate(performance.now());
-        console.log('Visualization initialized successfully');
-    } catch (error) {
-        console.error('Failed to initialize visualization:', error);
-        showError('Failed to initialize visualization. Please refresh the page.');
-    }
+  try {
+    updateProgress(0, 'Initializing visualization...');
+    await loadEarthTextures();
+    animate(performance.now());
+    console.log('Visualization initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize visualization:', error);
+    showError('Failed to initialize visualization. Please refresh the page.');
+  }
 }
 
 // Start initialization when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    initializeVisualization();
-}); 
+  initializeVisualization();
+});

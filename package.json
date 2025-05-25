@@ -9,14 +9,25 @@
     "preview": "vite preview",
     "vercel-build": "npm run build",
     "clean": "rimraf dist",
-    "prebuild": "npm run clean"
+    "prebuild": "npm run clean",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "three": "^0.160.0"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "rimraf": "^5.0.5"
+    "@vitejs/plugin-legacy": "^6.1.1",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^5.0.10",
+    "terser": "^5.39.2",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
   },
   "engines": {
     "node": ">=18.0.0"

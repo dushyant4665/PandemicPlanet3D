@@ -1,27 +1,27 @@
 import * as THREE from 'three';
 
 export class Aurora {
-    constructor(scene, earthRadius) {
-        this.scene = scene;
-        this.earthRadius = earthRadius;
-        this.auroraRadius = earthRadius * 1.02;
-        
-        this.createAurora();
-    }
+  constructor(scene, earthRadius) {
+    this.scene = scene;
+    this.earthRadius = earthRadius;
+    this.auroraRadius = earthRadius * 1.02;
 
-    createAurora() {
-        // Create aurora geometry
-        const geometry = new THREE.SphereGeometry(this.auroraRadius, 128, 64);
-        
-        // Create custom shader material for aurora
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                auroraColor: { value: new THREE.Color(0x00ff88) },
-                auroraIntensity: { value: 1.0 },
-                viewVector: { value: new THREE.Vector3() }
-            },
-            vertexShader: `
+    this.createAurora();
+  }
+
+  createAurora() {
+    // Create aurora geometry
+    const geometry = new THREE.SphereGeometry(this.auroraRadius, 128, 64);
+
+    // Create custom shader material for aurora
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        auroraColor: { value: new THREE.Color(0x00ff88) },
+        auroraIntensity: { value: 1.0 },
+        viewVector: { value: new THREE.Vector3() },
+      },
+      vertexShader: `
                 varying vec3 vNormal;
                 varying vec3 vPosition;
                 varying vec2 vUv;
@@ -33,7 +33,7 @@ export class Aurora {
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                 }
             `,
-            fragmentShader: `
+      fragmentShader: `
                 uniform float time;
                 uniform vec3 auroraColor;
                 uniform float auroraIntensity;
@@ -94,32 +94,32 @@ export class Aurora {
                     gl_FragColor = vec4(color, intensity * 0.8);
                 }
             `,
-            transparent: true,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
+      transparent: true,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
 
-        this.auroraMesh = new THREE.Mesh(geometry, material);
-        this.scene.add(this.auroraMesh);
-    }
+    this.auroraMesh = new THREE.Mesh(geometry, material);
+    this.scene.add(this.auroraMesh);
+  }
 
-    update(time, camera) {
-        if (this.auroraMesh && this.auroraMesh.material.uniforms) {
-            this.auroraMesh.material.uniforms.time.value = time;
-            this.auroraMesh.material.uniforms.viewVector.value = camera.position;
-            
-            // Subtle intensity variation
-            const intensity = 0.8 + Math.sin(time * 0.2) * 0.2;
-            this.auroraMesh.material.uniforms.auroraIntensity.value = intensity;
-        }
-    }
+  update(time, camera) {
+    if (this.auroraMesh && this.auroraMesh.material.uniforms) {
+      this.auroraMesh.material.uniforms.time.value = time;
+      this.auroraMesh.material.uniforms.viewVector.value = camera.position;
 
-    dispose() {
-        if (this.auroraMesh) {
-            this.auroraMesh.geometry.dispose();
-            this.auroraMesh.material.dispose();
-            this.scene.remove(this.auroraMesh);
-        }
+      // Subtle intensity variation
+      const intensity = 0.8 + Math.sin(time * 0.2) * 0.2;
+      this.auroraMesh.material.uniforms.auroraIntensity.value = intensity;
     }
-} 
+  }
+
+  dispose() {
+    if (this.auroraMesh) {
+      this.auroraMesh.geometry.dispose();
+      this.auroraMesh.material.dispose();
+      this.scene.remove(this.auroraMesh);
+    }
+  }
+}

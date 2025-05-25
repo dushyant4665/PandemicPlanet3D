@@ -1,28 +1,28 @@
 import * as THREE from 'three';
 
 export class Atmosphere {
-    constructor(scene, earthRadius) {
-        this.scene = scene;
-        this.earthRadius = earthRadius;
-        this.atmosphereRadius = earthRadius * 1.025;
-        this.glowRadius = earthRadius * 1.1;
-        
-        this.createAtmosphere();
-        this.createGlow();
-    }
+  constructor(scene, earthRadius) {
+    this.scene = scene;
+    this.earthRadius = earthRadius;
+    this.atmosphereRadius = earthRadius * 1.025;
+    this.glowRadius = earthRadius * 1.1;
 
-    createAtmosphere() {
-        // Create atmosphere geometry
-        const geometry = new THREE.SphereGeometry(this.atmosphereRadius, 64, 64);
-        
-        // Custom shader for realistic atmospheric scattering
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                glowColor: { value: new THREE.Color(0x93cfef) },
-                viewVector: { value: new THREE.Vector3() }
-            },
-            vertexShader: `
+    this.createAtmosphere();
+    this.createGlow();
+  }
+
+  createAtmosphere() {
+    // Create atmosphere geometry
+    const geometry = new THREE.SphereGeometry(this.atmosphereRadius, 64, 64);
+
+    // Custom shader for realistic atmospheric scattering
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        glowColor: { value: new THREE.Color(0x93cfef) },
+        viewVector: { value: new THREE.Vector3() },
+      },
+      vertexShader: `
                 varying vec3 vNormal;
                 varying vec3 vViewPosition;
                 
@@ -33,7 +33,7 @@ export class Atmosphere {
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
-            fragmentShader: `
+      fragmentShader: `
                 uniform vec3 glowColor;
                 uniform float time;
                 uniform vec3 viewVector;
@@ -57,26 +57,26 @@ export class Atmosphere {
                     gl_FragColor = vec4(finalColor, alpha * 0.5);
                 }
             `,
-            transparent: true,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
+      transparent: true,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
 
-        this.atmosphere = new THREE.Mesh(geometry, material);
-        this.scene.add(this.atmosphere);
-    }
+    this.atmosphere = new THREE.Mesh(geometry, material);
+    this.scene.add(this.atmosphere);
+  }
 
-    createGlow() {
-        // Create outer glow effect
-        const geometry = new THREE.SphereGeometry(this.glowRadius, 32, 32);
-        
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                time: { value: 0 },
-                glowColor: { value: new THREE.Color(0x93cfef) }
-            },
-            vertexShader: `
+  createGlow() {
+    // Create outer glow effect
+    const geometry = new THREE.SphereGeometry(this.glowRadius, 32, 32);
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        glowColor: { value: new THREE.Color(0x93cfef) },
+      },
+      vertexShader: `
                 varying vec3 vNormal;
                 varying vec3 vPosition;
                 
@@ -86,7 +86,7 @@ export class Atmosphere {
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                 }
             `,
-            fragmentShader: `
+      fragmentShader: `
                 uniform vec3 glowColor;
                 uniform float time;
                 varying vec3 vNormal;
@@ -106,38 +106,38 @@ export class Atmosphere {
                     gl_FragColor = vec4(finalColor, alpha);
                 }
             `,
-            transparent: true,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
+      transparent: true,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
 
-        this.glow = new THREE.Mesh(geometry, material);
-        this.scene.add(this.glow);
+    this.glow = new THREE.Mesh(geometry, material);
+    this.scene.add(this.glow);
+  }
+
+  update(time, camera) {
+    if (this.atmosphere && this.atmosphere.material.uniforms) {
+      this.atmosphere.material.uniforms.time.value = time;
+      this.atmosphere.material.uniforms.viewVector.value = camera.position;
     }
 
-    update(time, camera) {
-        if (this.atmosphere && this.atmosphere.material.uniforms) {
-            this.atmosphere.material.uniforms.time.value = time;
-            this.atmosphere.material.uniforms.viewVector.value = camera.position;
-        }
-        
-        if (this.glow && this.glow.material.uniforms) {
-            this.glow.material.uniforms.time.value = time;
-        }
+    if (this.glow && this.glow.material.uniforms) {
+      this.glow.material.uniforms.time.value = time;
+    }
+  }
+
+  dispose() {
+    if (this.atmosphere) {
+      this.atmosphere.geometry.dispose();
+      this.atmosphere.material.dispose();
+      this.scene.remove(this.atmosphere);
     }
 
-    dispose() {
-        if (this.atmosphere) {
-            this.atmosphere.geometry.dispose();
-            this.atmosphere.material.dispose();
-            this.scene.remove(this.atmosphere);
-        }
-        
-        if (this.glow) {
-            this.glow.geometry.dispose();
-            this.glow.material.dispose();
-            this.scene.remove(this.glow);
-        }
+    if (this.glow) {
+      this.glow.geometry.dispose();
+      this.glow.material.dispose();
+      this.scene.remove(this.glow);
     }
-} 
+  }
+}

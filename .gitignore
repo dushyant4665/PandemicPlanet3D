@@ -1,17 +1,28 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.js
 
-# Build output
+# Production
 dist/
 build/
+.vercel
+
+# Testing
+coverage
+.nyc_output
 
 # Environment files
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
 *.suo
 *.ntvs*
@@ -35,6 +46,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
 # Optional npm cache directory
 .npm
@@ -67,4 +79,9 @@ pnpm-debug.log*
 
 # Keep only specific texture files
 !public/assets/earth/earth-day.jpg
-!public/assets/earth/earth-clouds-transparency.png 
+!public/assets/earth/earth-clouds-transparency.png
+
+# Cache
+.cache
+.stylelintcache
+.parcel-cache 
