@@ -3,7 +3,7 @@
 A high-performance, interactive 3D Earth built with Three.js that demonstrates advanced WebGL techniques with clean, maintainable code architecture.
 
 <div align="center">
-  <video src="https://raw.githubusercontent.com/dushyant4665/earth-visualization/main/assets/preview.mp4" controls width="800"></video>
+  <video src="https://raw.githubusercontent.com/dushyant4665/earth-visualization/assets/preview.mp4" controls width="800"></video>
 </div>
 
 ## Why This Project Stands Out
