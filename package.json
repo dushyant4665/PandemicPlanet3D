@@ -5,17 +5,17 @@
   "type": "module",
   "scripts": {
     "setup": "node setup.js",
-    "predev": "npm run setup",
     "dev": "vite",
-    "prebuild": "npm run setup",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && vercel --prod"
+    "build": "node -e \"try { require('fs').mkdirSync('public/assets/earth', { recursive: true }); } catch(e) {}\" && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "three": "^0.160.0"
   },
   "devDependencies": {
     "vite": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
