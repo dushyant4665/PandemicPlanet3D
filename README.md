@@ -61,8 +61,3 @@ vercel --prod
 ## License
 
 MIT License - feel free to use this project for learning or commercial purposes.
-
-## Credits
-
-- Earth textures: NASA Blue Marble
-- Built with Three.js and Vite
