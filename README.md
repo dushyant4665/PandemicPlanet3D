@@ -4,12 +4,12 @@ A real-time 3D Earth visualization built with Three.js and Vite. This project cr
 
 ## Features
 
-- 🌍 High-resolution Earth textures (8K)
-- ☁️ Dynamic cloud layer with transparency
-- 🌙 Day/night cycle with city lights
-- 🎥 Smooth camera controls
-- 🌟 Realistic atmospheric effects
-- 📱 Responsive design
+-  High-resolution Earth textures (8K)
+-  Dynamic cloud layer with transparency
+-  Day/night cycle with city lights
+-  Smooth camera controls
+-  Realistic atmospheric effects
+-  Responsive design
 
 ## Quick Start
 
@@ -29,17 +29,6 @@ A real-time 3D Earth visualization built with Three.js and Vite. This project cr
    npm run build
    ```
 
-## Required Assets
-
-Place these texture files in `public/assets/earth/`:
-- `8k_earth_daymap1.jpg` - Earth day texture
-- `8k_earth_nightmap1.jpg` - Earth night texture
-- `earth-bump.jpg` - Surface bump map
-- `earth-specular.jpg` - Specular highlights
-- `earth-normal.jpg` - Surface normal map
-- `earth-roughness.jpg` - Surface roughness
-- `earth-clouds.png` - Cloud layer
-- `earth-clouds-alpha.png` - Cloud transparency
 
 ## Project Structure
 
